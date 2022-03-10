@@ -1,4 +1,4 @@
-from datetime import timedelta
+"""from datetime import timedelta
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 from airflow.utils.dates import days_ago
@@ -20,3 +20,5 @@ dag = DAG(
     description='Our first DAG with ETL process!',
     schedule_interval=timedelta(days=1)
 )
+
+"""
