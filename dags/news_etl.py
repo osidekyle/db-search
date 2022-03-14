@@ -1,6 +1,6 @@
 import urllib.request
 import xml.etree.ElementTree as ET
-
+from cassandra.cluster import Cluster
 
 def get_news_data():
     opener = urllib.request.FancyURLopener()
@@ -24,7 +24,25 @@ def get_news_data():
 
 
 
+    cluster = Cluster(port=9042)
+    session = cluster.connect()
+    session.execute('CREATE KEYSPACE IF NOT EXISTS news WITH replication = {\'class\':\'SimpleStrategy\', \'replication_factor\' : 3};')
+    keyspaces = session.execute("describe keyspaces")
+    for keyspace in keyspaces:
+        print(keyspace)
 
+    
+    session.execute('USE news')
+    session.execute('CREATE TABLE IF NOT EXISTS news_data(guid text PRIMARY KEY,title text,description text,pubDate text);')
+   
+
+    
+    for story in storyList:
+        session.execute("""INSERT INTO news_data (guid, title, description, pubDate) VALUES(%s, %s, %s, %s);""",(story['guid'], story['title'], story['description'], story['pubDate']))
+    rows = session.execute("SELECT * FROM news_data")
+    for row in rows:
+        print(row)
+get_news_data()
 
 
 

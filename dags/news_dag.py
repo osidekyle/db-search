@@ -30,11 +30,6 @@ run_etl = PythonOperator(
     dag=dag
 )
 
-store_data = BashOperator(
-    task_id = 'store_in_cassandra',
-    bash_command = 'echo Writing to Database'
-)
 
 
-
-run_etl >> store_data
+run_etl
