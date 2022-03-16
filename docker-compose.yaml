@@ -78,9 +78,7 @@ services:
       - ~/apps/cassandra:/var/lib/cassandra
     environment:
       - CASSANDRA_CLUSTER_NAME=casscluster
-    networks:
-      test:
-        ipv4_address: 10.1.0.100
+
 
   postgres:
     image: postgres:13
@@ -281,10 +279,3 @@ services:
 volumes:
   postgres-db-volume:
 
-networks:
-  test:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 10.1.0.0/24

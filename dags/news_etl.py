@@ -1,7 +1,6 @@
 import urllib.request
 import xml.etree.ElementTree as ET
 from cassandra.cluster import Cluster
-import socket
 
 def get_news_data():
     opener = urllib.request.FancyURLopener()
@@ -24,7 +23,7 @@ def get_news_data():
         print(storyMap, "\n")
 
 
-    cluster = Cluster(["10.1.0.100"])
+    cluster = Cluster(["cassandra"], port=9042)
     session = cluster.connect()
     session.execute('CREATE KEYSPACE IF NOT EXISTS news WITH replication = {\'class\':\'SimpleStrategy\', \'replication_factor\' : 3};')
     keyspaces = session.execute("describe keyspaces")
