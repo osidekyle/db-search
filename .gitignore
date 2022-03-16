@@ -1,10 +1,5 @@
 
 /logs
-/main
 /plugins
-/main
-/venv/include
-/venv/Lib
-/venv/scripts
-/venv/pyvenv.cfg
-my_played_tracks.sqlite
+/.env
+/dags/__pycache__
