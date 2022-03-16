@@ -42,7 +42,8 @@ def get_news_data():
     rows = session.execute("SELECT * FROM news_data")
     for row in rows:
         print(row)
-get_news_data()
+
+
 
 
 
