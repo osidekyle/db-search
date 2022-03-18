@@ -1,5 +1,6 @@
 
 /logs
 /plugins
+/store
 /.env
 /dags/__pycache__

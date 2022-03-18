@@ -25,6 +25,9 @@ def get_news_data():
 
     cluster = Cluster(["cassandra"], port=9042)
     session = cluster.connect()
+    keyspaces = session.execute("describe keyspaces")
+    for keyspace in keyspaces:
+        print(keyspace)
     session.execute('CREATE KEYSPACE IF NOT EXISTS news WITH replication = {\'class\':\'SimpleStrategy\', \'replication_factor\' : 3};')
     keyspaces = session.execute("describe keyspaces")
     for keyspace in keyspaces:

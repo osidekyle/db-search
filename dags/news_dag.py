@@ -20,7 +20,8 @@ default_args = {
 dag = DAG(
     'news_dag',
     default_args=default_args,
-    description='Our first DAG with ETL process!'
+    description='Our first DAG with ETL process!',
+    schedule_interval=timedelta(hours=1)
 )
 
 run_etl = PythonOperator(
