@@ -1,4 +1,5 @@
 import urllib.request
+import requests
 import xml.etree.ElementTree as ET
 from cassandra.cluster import Cluster
 
@@ -22,7 +23,7 @@ def get_news_data():
         storyList.append(storyMap)
         print(storyMap, "\n")
 
-
+    
     cluster = Cluster(["cassandra"], port=9042)
     session = cluster.connect()
     keyspaces = session.execute("describe keyspaces")
@@ -44,6 +45,13 @@ def get_news_data():
     rows = session.execute("SELECT * FROM news_data")
     for row in rows:
         print(row)
+
+    r = requests.get("http://localhost:8983/solr/admin/cores?action=STATUS")
+    data = r.json()
+    if 'news_core' not in data['status'].keys():
+        print("No news_core!")
+
+get_news_data()
 
 
 

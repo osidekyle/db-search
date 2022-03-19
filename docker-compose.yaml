@@ -70,6 +70,17 @@ x-airflow-common:
       condition: service_healthy
 
 services:
+  solr:
+    image: solr
+    ports:
+      - "8983:8983"
+    volumes:
+      - ./data:/opt/solr/server/solr/mycores
+    entrypoint:
+      - docker-entrypoint.sh
+      - solr-precreate
+      - mycore
+
   cassandra:
     image: cassandra:latest
     ports:
