@@ -1,5 +1,5 @@
 import urllib.request
-import requests
+import json
 import xml.etree.ElementTree as ET
 from cassandra.cluster import Cluster
 
@@ -46,10 +46,15 @@ def get_news_data():
     for row in rows:
         print(row)
 
-    r = requests.get("http://localhost:8983/solr/admin/cores?action=STATUS")
-    data = r.json()
+    import http.client
+    #conn = http.client.HTTPConnection('localhost:8983')
+    conn = http.client.HTTPConnection('solr:8983')
+    conn.request('GET', '/solr/admin/cores?action=STATUS')
+    res = conn.getresponse()
+    data = json.loads(res.read().decode('utf-8'))
+    print(data)
     if 'news_core' not in data['status'].keys():
-        print("No news_core!")
+         print("No news_core!")
 
 get_news_data()
 
