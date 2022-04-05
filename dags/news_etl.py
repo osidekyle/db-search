@@ -2,6 +2,10 @@ import urllib.request
 import json
 import xml.etree.ElementTree as ET
 from cassandra.cluster import Cluster
+import elasticsearch
+from elasticsearch import Elasticsearch
+from elasticsearch import helpers
+
 
 def get_news_data():
     opener = urllib.request.FancyURLopener()
@@ -46,15 +50,16 @@ def get_news_data():
     for row in rows:
         print(row)
 
-    import http.client
-    #conn = http.client.HTTPConnection('localhost:8983')
-    conn = http.client.HTTPConnection('solr:8983')
-    conn.request('GET', '/solr/admin/cores?action=STATUS')
-    res = conn.getresponse()
-    data = json.loads(res.read().decode('utf-8'))
-    print(data)
-    if 'news_core' not in data['status'].keys():
-         print("No news_core!")
+
+    es = Elasticsearch([{'host' : 'localhost', 'port' : 9200, 'scheme' : 'http'}])
+    es.indices.create(index = 'news_index', ignore=400)
+    
+    for story in storyList:
+        es.index(index="news_index", document=story)
+    resp = es.search(index="news_index", query={"match_all": {}})
+    print(resp)
+
+    
 
 get_news_data()
 

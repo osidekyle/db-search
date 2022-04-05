@@ -70,16 +70,15 @@ x-airflow-common:
       condition: service_healthy
 
 services:
-  solr:
-    image: solr
-    ports:
-      - "8983:8983"
+  elasticsearch:
+    image: elasticsearch:8.1.2
+    environment:
+      - xpack.security.enabled=false
+      - "discovery.type=single-node"
     volumes:
-      - ./data:/opt/solr/server/solr/mycores
-    entrypoint:
-      - docker-entrypoint.sh
-      - solr-precreate
-      - mycore
+      - ./elasticsearch-data:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
 
   cassandra:
     image: cassandra:latest
