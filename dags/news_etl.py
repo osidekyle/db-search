@@ -51,12 +51,12 @@ def get_news_data():
         print(row)
 
 
-    es = Elasticsearch([{'host' : 'localhost', 'port' : 9200, 'scheme' : 'http'}])
+    es = Elasticsearch([{'host' : 'elasticsearch', 'port' : 9200, 'scheme' : 'http'}])
     es.indices.create(index = 'news_index', ignore=400)
     
     for story in storyList:
-        es.index(index="news_index", document=story)
-    resp = es.search(index="news_index", query={"match_all": {}})
+        es.index(index="news_index", body=story)
+    resp = es.search(index="news_index", body={"query":{"match_all": {}}})
     print(resp)
 
     
