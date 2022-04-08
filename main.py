@@ -1,7 +1,7 @@
 import elasticsearch
 from elasticsearch import Elasticsearch
 
-es = Elasticsearch([{'host' : '0.0.0.0', 'port' : 9200, 'scheme' : 'http'}], max_retries=30,
+es = Elasticsearch([{'host' : 'localhost', 'port' : 9200, 'scheme' : 'http'}], max_retries=30,
                        retry_on_timeout=True, request_timeout=30)
 print(es.ping())
 
