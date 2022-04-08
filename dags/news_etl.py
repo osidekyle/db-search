@@ -59,9 +59,6 @@ def get_news_data():
     resp = es.search(index="news_index", body={"query":{"match_all": {}}})
     print(resp)
 
-    
-
-get_news_data()
 
 
 
